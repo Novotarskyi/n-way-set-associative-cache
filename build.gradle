@@ -1,0 +1,32 @@
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+test {
+    doFirst {
+        delete "target"
+    }
+}
+
+clean {
+    delete "target"
+}
+
+tasks.withType(Test) {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+dependencies {
+    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+    testCompile 'cglib:cglib-nodep:2.2'
+}
