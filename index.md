@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+### N-way Set Associative Cache
+![Java CI with Gradle](https://github.com/Novotarskyi/n-way-set-associative-cache/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
 
-You can use the [editor on GitHub](https://github.com/Novotarskyi/n-way-set-associative-cache/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Basic implementation of a generic [N-way Set Associative Cache](https://en.wikipedia.org/wiki/Cache_placement_policies#Set-associative_cache) using Java
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Comes with 3 basic [Cache Replacement policy implementations](https://en.wikipedia.org/wiki/Cache_replacement_policies):
+1. [Least Recently Used (LRU)](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU))
+2. [Most Recently Used(MRU)](https://en.wikipedia.org/wiki/Cache_replacement_policies#Most_recently_used_(MRU))
+3. [Least Frequently Used (LFU)](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-frequently_used_(LFU))
 
-### Markdown
+To run the test suite - just go into the project root and type `./gradlew test`
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+To use in your code, `NWaySetAssociativeCache` is supplied with Set Size, Entry Size and a Replacement Algorithm:
+```
+NWaySetAssociativeCache(int setSize, 
+                        int entrySize, 
+                        ReplacementAlgorithm<K, V, M> replacementAlgorithm)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Example: 
+```
+Cache<Integer, String, Long> cache = 
+    new NWaySetAssociativeCache<>(8, 2, new LruReplacementAlgorithm<>());
+cache.put(16, "Good");
+cache.put(16, "Bad");
+String value  = cache.get(16); // value == "Bad"
+```
+To use a custom Cache Replacement Algorithm, implement the `ReplacementAlgorithm` interface and supply it into the `NWaySetAssociativeCache`:
+```
+public interface ReplacementAlgorithm<K,V,M> 
+                    extends Comparator<CacheElement<K,V,M>>
+```
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Novotarskyi/n-way-set-associative-cache/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+To integrate with other typical caches, `NWaySetAssociativeCache` implements a basic `Cache` interface:
+```
+public interface Cache<K, V, M> {
+       V get(final K key);
+       void put(final K key, final V value);
+}
+```
