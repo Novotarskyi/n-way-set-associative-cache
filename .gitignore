@@ -1,0 +1,39 @@
+# OSX DS Store
+.DS_Store
+
+# Java Class files
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Gradle files
+.gradle
+**/build/
+
+# Avoid ignoring Gradle wrapper jar file - included and versions as an exception
+!gradle-wrapper.jar
+
+# Terraform lineage files
+.terraform
+terraform.tfstate*
+
+# Eclipse and Maven Files
+.settings
+target/
+.classpath
+.project
+bin/
+.scannerwork
+
+# IntelliJ project specific files
+*.iml
+**/.idea
+
+### Python ###
+.venv/
+
+# Our local accesslogs
+logs/
