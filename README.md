@@ -12,7 +12,9 @@ To run the test suite - just go into the project root and type `./gradlew test`
 
 To use in your code, `NWaySetAssociativeCache` is supplied with Set Size, Entry Size and a Replacement Algorithm:
 ```
-NWaySetAssociativeCache(int setSize, int entrySize, ReplacementAlgorithm<K, V, M> replacementAlgorithm)
+NWaySetAssociativeCache(int setSize, 
+                        int entrySize, 
+                        ReplacementAlgorithm<K, V, M> replacementAlgorithm)
 ```
 
 Example: 
@@ -25,7 +27,8 @@ String value  = cache.get(16); // value == "Bad"
 ```
 To use a custom Cache Replacement Algorithm, implement the `ReplacementAlgorithm` interface and supply it into the `NWaySetAssociativeCache`:
 ```
-public interface ReplacementAlgorithm<K,V,M> extends Comparator<CacheElement<K,V,M>>
+public interface ReplacementAlgorithm<K,V,M> 
+                    extends Comparator<CacheElement<K,V,M>>
 ```
 
 To integrate with other typical caches, `NWaySetAssociativeCache` implements a basic `Cache` interface:
