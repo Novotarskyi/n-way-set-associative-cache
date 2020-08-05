@@ -1,6 +1,7 @@
 allprojects {
     apply plugin: 'idea'
     apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     apply plugin: 'java'
     apply plugin: 'groovy'
 
@@ -29,4 +30,18 @@ tasks.withType(Test) {
 dependencies {
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
     testCompile 'cglib:cglib-nodep:2.2'
+}
+
+publishing {
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/Novotarskyi/n-way-set-associative-cache"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
